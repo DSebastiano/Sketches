@@ -1,0 +1,2 @@
+INDEX VERSION 1.131+C:\_private\Sketches\RubricaTelefonica\.metadata\.plugins\org.eclipse.jdt.core
+1444196783.index
