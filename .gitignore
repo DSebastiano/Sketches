@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 RubricaTelefonica/.metadata/.plugins/org.eclipse.jdt.core/1104234628.index
 RubricaTelefonica/.metadata/.plugins/org.eclipse.jdt.core/1126000489.index
 RubricaTelefonica/.metadata/.plugins/org.eclipse.jdt.core/1163912068.index
@@ -92,3 +93,7 @@ RubricaTelefonica/.metadata/.plugins/org.eclipse.jdt.core/975184237.index
 RubricaTelefonica/.metadata/.plugins/org.eclipse.jdt.core/994925074.index
 RubricaTelefonica/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/0.png
 RubricaTelefonica/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/1.png
+=======
+*.index
+*.png
+>>>>>>> gitignore updated
