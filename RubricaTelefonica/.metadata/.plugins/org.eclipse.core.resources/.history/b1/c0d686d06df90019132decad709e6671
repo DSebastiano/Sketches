@@ -1,0 +1,5 @@
+package com.practice.rubrica.repository;
+
+public interface ContattiRep {
+
+}
