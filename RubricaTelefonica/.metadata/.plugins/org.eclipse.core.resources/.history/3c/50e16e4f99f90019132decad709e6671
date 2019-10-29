@@ -1,0 +1,36 @@
+package com.practice.rubrica.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.practice.rubrica.entities.Contatti;
+import com.practice.rubrica.repository.ContattiRep;
+
+@Service
+public class ContattiServiceImpl implements ContattiService {
+	
+	@Autowired
+	private ContattiRep contattiRep;
+
+	@Override
+	public List<Contatti> selTutti() {
+		
+		return contattiRep.selTutti();
+	}
+
+	@Override
+	public List<Contatti> selByInstructions(String instructions) {
+		
+		return contattiRep.selByInstructions(instructions);
+	}
+
+	@Override
+	public void inserisci(Contatti contatto) {
+		
+		contattiRep.inserisci(contatto);
+
+	}
+
+}

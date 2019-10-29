@@ -1,0 +1,55 @@
+package com.practice.rubrica.repository;
+
+import java.util.List;
+
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Repository;
+
+import com.practice.rubrica.entities.Contatti;
+
+@Repository
+public class ContattiRepImpl extends AbstractRep<Contatti> implements ContattiRep {
+
+	@Override
+	public List<Contatti> selTutti() {
+		
+		return super.selTutti();
+	}
+
+	@Override
+	public List<Contatti> selByInstructions(String instructions) {
+
+		List<Contatti> retVal;
+		
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Contatti> queryDefinition = cb.createQuery(Contatti.class);
+		
+		Root<Contatti> recordset = queryDefinition.from(Contatti.class);
+		
+		ParameterExpression<String> param = cb.parameter(String.class);
+		
+		queryDefinition.select(recordset).where(cb.or(
+				cb.like(recordset.get("num_tel"), param ),
+				cb.like(recordset.get("nome"), param ),
+				cb.like(recordset.get("cognome"), param )));
+		
+		TypedQuery<Contatti> query = entityManager.createQuery(queryDefinition);
+		query.setParameter(param, "%" + instructions + "%");
+		
+		retVal = query.getResultList();
+		
+		return retVal;
+	}
+
+	@Override
+	public void inserisci(Contatti contatto) {
+		
+		super.inserisci(contatto);
+	}
+
+}

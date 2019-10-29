@@ -1,0 +1,47 @@
+package com.practice.rubrica.repository;
+
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+
+public abstract class AbstractRep<I extends Serializable> 
+	implements GenericRep<I> {
+	
+	@PersistenceContext
+	protected EntityManager entityManager;
+	
+	protected final Class<I> entityClass;
+	
+	@SuppressWarnings("unchecked")
+	public AbstractRep()
+	{
+		this.entityClass = (Class<I>) ((ParameterizedType)
+				this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	}
+	
+	@Override
+	public List<I> selTutti() {
+		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+		CriteriaQuery<I> query = builder.createQuery(this.entityClass);
+		
+		return this.entityManager.createQuery(
+				query.select(query.from(this.entityClass))).getResultList();
+	}
+	
+	@Override
+	public void inserisci(I entity)
+	{
+		this.entityManager.persist(entity);
+		flushAndClear();
+	}
+	
+	private void flushAndClear() {
+	    entityManager.flush();
+	    entityManager.clear();
+	}
+}
