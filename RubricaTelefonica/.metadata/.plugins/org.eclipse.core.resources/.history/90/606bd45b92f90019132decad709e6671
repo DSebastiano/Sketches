@@ -1,0 +1,9 @@
+//package com.practice.rubrica.repository;
+//
+//import org.springframework.data.jpa.repository.JpaRepository;
+//
+//import com.practice.rubrica.entities.Contatti;
+//
+//public interface ContattiRepository extends JpaRepository<Contatti, Long> {
+//
+//}
