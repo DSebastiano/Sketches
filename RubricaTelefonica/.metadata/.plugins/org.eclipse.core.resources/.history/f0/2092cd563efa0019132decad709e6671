@@ -1,0 +1,21 @@
+package com.practice.rubrica.repository;
+
+import java.util.List;
+
+import com.practice.rubrica.entities.Registro;
+
+public class RegistroRepImpl extends AbstractRep<Registro> implements RegistroRep {
+
+	@Override
+	public List<Registro> selTutti() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void chiama(Registro chiamata) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

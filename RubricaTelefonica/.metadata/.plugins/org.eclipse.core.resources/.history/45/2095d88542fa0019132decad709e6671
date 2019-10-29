@@ -1,0 +1,22 @@
+package com.practice.rubrica.repository;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import com.practice.rubrica.entities.Registro;
+
+@Repository
+public class RegistroRepImpl extends AbstractRep<Registro> implements RegistroRep {
+
+	@Override
+	public List<Registro> selTutti() {
+		return super.selTutti();
+	}
+
+	@Override
+	public void chiama(Registro chiamata) {
+		super.inserisci(chiamata);
+	}
+
+}
