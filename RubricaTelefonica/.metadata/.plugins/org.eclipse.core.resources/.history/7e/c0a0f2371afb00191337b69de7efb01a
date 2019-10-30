@@ -1,0 +1,25 @@
+package com.practice.rubrica.services;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.hateoas.EntityModel;
+
+import com.practice.rubrica.entities.Contatti;
+
+public interface ContattiService {
+	
+	Contatti selContatto(Long id);
+	
+	List<Contatti> selTutti();
+
+	List<Contatti> selTutti(String searchString);
+	
+	List<Contatti> selPreferiti();
+	
+	void inserisci(Contatti contatto);
+
+	
+
+	
+}

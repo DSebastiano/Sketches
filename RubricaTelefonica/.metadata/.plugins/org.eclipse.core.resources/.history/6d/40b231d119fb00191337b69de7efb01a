@@ -1,0 +1,16 @@
+package com.practice.rubrica.repository;
+
+import java.util.List;
+
+import com.practice.rubrica.entities.Contatti;
+
+public interface ContattiRep {
+	
+	Contatti selContatto(Long id);
+	
+	List<Contatti> selTutti();
+
+	List<Contatti> selTutti(String searchString);
+		
+	void inserisci(Contatti contatto);
+}
