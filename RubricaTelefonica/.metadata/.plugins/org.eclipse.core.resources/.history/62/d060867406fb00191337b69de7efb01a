@@ -1,0 +1,15 @@
+package com.practice.rubrica.repository;
+
+import java.util.List;
+
+import com.practice.rubrica.entities.Chiamate;
+
+public interface ChiamateRep {
+	
+	Chiamate selChiamata(Long id);
+	
+	List<Chiamate> selTutti(String searchString);
+	
+	void chiama(Chiamate chiamata);
+
+}

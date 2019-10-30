@@ -1,0 +1,16 @@
+package com.practice.rubrica.services;
+
+import java.util.List;
+
+import com.practice.rubrica.entities.Contatti;
+
+public interface ContattiService {
+	
+	Contatti selContatto(Long id);
+
+	List<Contatti> selTutti(String searchString);
+	
+	void inserisci(Contatti contatto);
+
+	
+}

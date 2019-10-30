@@ -1,0 +1,29 @@
+package com.practice.rubrica.repository;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.practice.rubrica.entities.Chiamate;
+
+@Repository
+public class ChiamateRepImpl extends AbstractRep<Chiamate> implements ChiamateRep {
+	
+	@Override
+	public Chiamate selChiamata(Long id) {
+		return super.selById(id);
+	}
+
+	@Override
+	public List<Chiamate> selTutti() {
+		return super.selTutti();
+	}
+
+	@Override
+	@Transactional
+	public void chiama(Chiamate chiamata) {
+		super.inserisci(chiamata);
+	}
+
+}

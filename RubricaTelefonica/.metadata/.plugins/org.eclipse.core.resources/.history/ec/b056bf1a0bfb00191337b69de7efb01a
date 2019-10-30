@@ -1,0 +1,39 @@
+package com.practice.rubrica.repository;
+
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.practice.rubrica.entities.Chiamate;
+
+@Repository
+public class ChiamateRepImpl extends AbstractRep<Chiamate> implements ChiamateRep {
+	
+	@Override
+	public Chiamate selChiamata(Long id) {
+		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+		CriteriaQuery<Chiamate> queryDefinition = builder.createQuery(this.entityClass);
+
+		Root<Chiamate> recordSet = queryDefinition.from(this.entityClass);
+		
+		queryDefinition.select(recordSet).where(builder.equal(recordSet.get("id_chiamata"), id));
+		
+		return this.entityManager.createQuery(queryDefinition).getSingleResult();
+	}
+
+	@Override
+	public List<Chiamate> selTutti() {
+		return super.selTutti();
+	}
+
+	@Override
+	@Transactional
+	public void chiama(Chiamate chiamata) {
+		super.inserisci(chiamata);
+	}
+}
