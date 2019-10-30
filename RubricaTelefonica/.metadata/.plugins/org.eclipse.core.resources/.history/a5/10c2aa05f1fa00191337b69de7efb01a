@@ -1,0 +1,74 @@
+package com.practice.rubrica.controllers;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.practice.rubrica.entities.Contatti;
+import com.practice.rubrica.entities.Registro;
+import com.practice.rubrica.services.ContattiService;
+import com.practice.rubrica.services.RegistroService;
+
+@RestController
+@RequestMapping("/api")
+public class Controller {
+
+	@Autowired
+	private ContattiService contattiService;
+	
+	@Autowired
+	private RegistroService registroService;
+	
+	@GetMapping("/contatti/{id}")
+	EntityModel<Contatti> selContatto(@PathVariable Long id) {
+		Contatti contatto = contattiService.selContatto(id);
+		
+		return new EntityModel<>(contatto,
+				linkTo(methodOn(Controller.class).selContatto(id)).withSelfRel(),
+			    linkTo(methodOn(Controller.class).selTutti()).withRel("contatti"));
+	}
+	
+	@GetMapping("/contatti")
+	List<Contatti> selTutti() {
+		return contattiService.selTutti();					
+	}
+	
+	@GetMapping("/registro")
+	List<Registro> vediRegistro() {
+		return registroService.selTutti();
+	}
+	
+	
+	@GetMapping("/contatti/search")
+	List<Contatti> selConditional(
+			@RequestParam("instructions") String instructions,
+			@RequestParam("favs") boolean favs) {
+		return contattiService.selConditional(instructions, favs);
+	}
+	
+	@PostMapping("/contatti")
+	void nuovoContatto(@RequestBody Contatti nuovoContatto) {
+		contattiService.inserisci(nuovoContatto);
+	}
+	
+	@PostMapping("/chiama/{id}")
+	void nuovaChiamata(@PathVariable("id") Long id_contatto) {
+		
+		Registro nuovaChiamata = new Registro(id_contatto, new Date());
+		
+		registroService.inserisci(nuovaChiamata);
+	}
+	
+	
+}

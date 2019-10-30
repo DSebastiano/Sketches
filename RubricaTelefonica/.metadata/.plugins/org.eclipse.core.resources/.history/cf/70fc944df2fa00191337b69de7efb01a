@@ -1,0 +1,12 @@
+package com.practice.rubrica.services;
+
+import java.util.List;
+
+import com.practice.rubrica.entities.Registro;
+
+public interface RegistroService {
+
+	List<Registro> selTutti();
+		
+	void inserisci(Registro chiamata);
+}

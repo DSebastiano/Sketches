@@ -1,0 +1,14 @@
+package com.practice.rubrica.repository;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
+public interface GenericRep<I extends Serializable> {
+
+	@NotNull
+	List<I> selTutti();
+	
+	void inserisci(@NotNull I entity);
+}

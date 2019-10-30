@@ -1,0 +1,14 @@
+package com.practice.rubrica.services;
+
+import java.util.List;
+
+import com.practice.rubrica.entities.Chiamate;
+
+public interface ChiamateService {
+	
+	Chiamate selChiamata(Long id);
+	
+	List<Chiamate> selTutti();
+		
+	void inserisci(Chiamate chiamata);
+}

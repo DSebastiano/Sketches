@@ -1,0 +1,13 @@
+package com.practice.rubrica.repository;
+
+import java.util.List;
+
+import com.practice.rubrica.entities.Chiamate;
+
+public interface RegistroRep {
+	
+	List<Chiamate> selTutti();
+	
+	void chiama(Chiamate chiamata);
+
+}

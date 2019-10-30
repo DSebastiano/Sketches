@@ -1,0 +1,30 @@
+package com.practice.rubrica.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.practice.rubrica.entities.Chiamate;
+import com.practice.rubrica.repository.ChiamateRep;
+
+@Service
+public class ChiamateServiceImpl implements ChiamateService {
+	
+	@Autowired
+	private ChiamateRep RegistroRep;
+
+	@Override
+	public List<Chiamate> selTutti() {
+		
+		return RegistroRep.selTutti();
+	}
+
+	@Override
+	public void inserisci(Chiamate chiamata) {
+		
+		RegistroRep.chiama(chiamata);
+
+	}
+
+}
