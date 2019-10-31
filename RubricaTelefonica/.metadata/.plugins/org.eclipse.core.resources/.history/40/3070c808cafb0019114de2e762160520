@@ -1,0 +1,26 @@
+package com.practice.rubrica.controllers;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import org.springframework.hateoas.Links;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class BaseController {
+
+	@RequestMapping(value = "/", method = RequestMethod.GET) 
+	Links getLinks() {
+		@SuppressWarnings("rawtypes")
+		RepresentationModel model = new RepresentationModel();
+		model.add(linkTo(methodOn(MainController.class).selContatti()).withRel("visualizza tutti i contatti"),
+				  linkTo(methodOn(MainController.class).cercaContatti("")).withRel("ricerca contatti: inserire un parametro di ricerca"),
+				  linkTo(methodOn(MainController.class).selPreferiti()).withRel("visualizza i preferiti"),
+				  linkTo(methodOn(MainController.class).selChiamate()).withRel("registro chiamate"));
+		return model.getLinks();
+	}
+	
+}

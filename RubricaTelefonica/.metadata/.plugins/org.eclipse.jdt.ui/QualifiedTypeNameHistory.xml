@@ -24,7 +24,7 @@
     <fullyQualifiedTypeName name="javax.persistence.criteria.Root"/>
     <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
     <fullyQualifiedTypeName name="org.springframework.web.servlet.view.RedirectView"/>
-    <fullyQualifiedTypeName name="org.springframework.hateoas.Links"/>
     <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
+    <fullyQualifiedTypeName name="org.springframework.hateoas.Links"/>
 </qualifiedTypeNameHistroy>

@@ -1,0 +1,25 @@
+package com.practice.rubrica;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.stereotype.Component;
+
+import com.practice.rubrica.controllers.Controller;
+import com.practice.rubrica.entities.Contatti;
+
+@Component
+public class ContattiResourceGenerator implements RepresentationModelAssembler<Contatti, EntityModel<Contatti>> {
+
+	@Override
+	public EntityModel<Contatti> toModel(Contatti entity) {
+		return new EntityModel<>(entity,
+				linkTo(methodOn(Controller.class).selContatto(entity.getId_contatto())).withSelfRel(),
+				linkTo(methodOn(Controller.class).nuovaChiamata(entity.getId_contatto())).withRel("effettua chiamata"),
+				linkTo(methodOn(Controller.class).attivaFav(entity.getId_contatto())).withRel("modifica stato preferenza"),
+			    linkTo(methodOn(Controller.class).selContatti()).withRel("visualizza tutti i contatti"));
+	}
+
+}

@@ -1,0 +1,87 @@
+package com.practice.rubrica.controllers;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.practice.rubrica.ContattiResourceGenerator;
+import com.practice.rubrica.entities.Contatti;
+import com.practice.rubrica.services.ContattiService;
+
+@RestController
+@RequestMapping("/rubrica")
+public class ContattiController {
+
+	@Autowired
+	private ContattiResourceGenerator contattiResourceGenerator;
+
+	@Autowired
+	private ContattiService contattiService;
+	
+	@GetMapping("/contatti/{idContatto}")
+	public EntityModel<Contatti> selContatto(@PathVariable Long idContatto) {
+		Contatti contatto = contattiService.selContatto(idContatto);
+		
+		return contattiResourceGenerator.toModel(contatto);
+	}
+	
+	@GetMapping("/contatti")
+	public CollectionModel<EntityModel<Contatti>> selContatti() {
+		List<EntityModel<Contatti>> contatti = contattiService.selTutti().stream()
+				.map(contattiResourceGenerator::toModel)
+				.collect(Collectors.toList());
+		
+		return new CollectionModel<>(contatti,
+			    linkTo(methodOn(ContattiController.class).selContatti()).withRel("visualizza tutti i contatti"),
+			    linkTo(methodOn(ContattiController.class).selPreferiti()).withRel("visualizza i preferiti"),
+			    linkTo(methodOn(MainController.class).selChiamate()).withRel("registro chiamate"));
+	}
+	
+	@GetMapping("/contatti/cerca")
+	CollectionModel<EntityModel<Contatti>> cercaContatti(@RequestParam(value = "searchString", required = false) String searchString) {
+		List<EntityModel<Contatti>> contatti = contattiService.selTutti(searchString).stream()
+				.map(contattiResourceGenerator::toModel)
+				.collect(Collectors.toList());
+		
+		return new CollectionModel<>(contatti,
+			    linkTo(methodOn(ContattiController.class).selContatti()).withRel("visualizza tutti i contatti"),
+			    linkTo(methodOn(ContattiController.class).selPreferiti()).withRel("visualizza i preferiti"),
+			    linkTo(methodOn(MainController.class).selChiamate()).withRel("registro chiamate"));
+	}
+	
+	@GetMapping("/contatti/preferiti")
+	CollectionModel<EntityModel<Contatti>> selPreferiti() {
+		List<EntityModel<Contatti>> preferiti = contattiService.selPreferiti().stream()
+				.map(contattiResourceGenerator::toModel)
+				.collect(Collectors.toList());
+		
+		return new CollectionModel<>(preferiti,
+			    linkTo(methodOn(ContattiController.class).selContatti()).withRel("visualizza tutti i contatti"));
+	}
+	
+	@PostMapping("/contatti")
+	EntityModel<Contatti> nuovoContatto(@RequestBody Contatti nuovoContatto) {
+		contattiService.inserisci(nuovoContatto);
+		return contattiResourceGenerator.toModel(nuovoContatto);
+	}
+	
+	@PostMapping("/contatti/{id}/attiva-fav")
+	public EntityModel<Contatti> attivaFav(@PathVariable("id") Long id_contatto) {
+		contattiService.attivaFav(id_contatto);
+		Contatti contattoModificato = contattiService.selContatto(id_contatto);
+		return contattiResourceGenerator.toModel(contattoModificato);
+	}
+}
