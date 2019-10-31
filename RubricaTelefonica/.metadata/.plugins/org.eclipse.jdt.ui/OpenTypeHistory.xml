@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
     <typeInfo handle="=rubrica/C:\/Users\/darisi\/.m2\/repository\/org\/springframework\/data\/spring-data-jpa\/2.2.0.RELEASE\/spring-data-jpa-2.2.0.RELEASE.jar&lt;org.springframework.data.jpa.repository(JpaRepository.class[JpaRepository" modifiers="1537" timestamp="1571995464857"/>
-    <typeInfo handle="=rubrica/src\/main\/java&lt;com.practice.rubrica.repository{ContattiRep.java[ContattiRep" modifiers="513" timestamp="1572341152102"/>
-    <typeInfo handle="=rubrica/src\/main\/java&lt;com.practice.rubrica.services{ContattiService.java[ContattiService" modifiers="513" timestamp="1572341180684"/>
-    <typeInfo handle="=rubrica/src\/main\/java&lt;com.practice.rubrica.repository{RegistroRep.java[RegistroRep" modifiers="513" timestamp="1572347932960"/>
+    <typeInfo handle="=rubrica/src\/main\/java&lt;com.practice.rubrica.repository{ContattiRep.java[ContattiRep" modifiers="513" timestamp="1572366977386"/>
+    <typeInfo handle="=rubrica/src\/main\/java&lt;com.practice.rubrica.services{ContattiService.java[ContattiService" modifiers="513" timestamp="1572366920967"/>
+    <typeInfo handle="=rubrica/C:\/Users\/darisi\/.m2\/repository\/org\/springframework\/hateoas\/spring-hateoas\/1.0.0.RELEASE\/spring-hateoas-1.0.0.RELEASE.jar&lt;org.springframework.hateoas.server(RepresentationModelAssembler.class[RepresentationModelAssembler" modifiers="1537" timestamp="1572360870300"/>
 </typeInfoHistroy>

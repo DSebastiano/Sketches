@@ -1,0 +1,7 @@
+package com.practice.rubrica;
+
+import org.springframework.hateoas.server.RepresentationModelAssembler;
+
+public class ContattiResourceGenerator implements RepresentationModelAssembler<T, D> {
+
+}

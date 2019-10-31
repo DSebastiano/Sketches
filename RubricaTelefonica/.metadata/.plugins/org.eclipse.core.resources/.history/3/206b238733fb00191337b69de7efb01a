@@ -1,0 +1,16 @@
+package com.practice.rubrica;
+
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.RepresentationModelAssembler;
+
+import com.practice.rubrica.entities.Contatti;
+
+public class ContattiResourceGenerator implements RepresentationModelAssembler<Contatti, EntityModel<Contatti>> {
+
+	@Override
+	public EntityModel<Contatti> toModel(Contatti entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

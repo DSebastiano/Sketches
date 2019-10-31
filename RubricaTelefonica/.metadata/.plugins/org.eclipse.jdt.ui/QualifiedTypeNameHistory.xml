@@ -4,7 +4,6 @@
     <fullyQualifiedTypeName name="javax.persistence.criteria.CriteriaBuilder"/>
     <fullyQualifiedTypeName name="javax.validation.constraints.NotNull"/>
     <fullyQualifiedTypeName name="javax.persistence.criteria.CriteriaQuery"/>
-    <fullyQualifiedTypeName name="javax.persistence.criteria.Root"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="javax.persistence.criteria.ParameterExpression"/>
     <fullyQualifiedTypeName name="javax.persistence.criteria.Predicate"/>
@@ -15,13 +14,17 @@
     <fullyQualifiedTypeName name="javax.persistence.CascadeType"/>
     <fullyQualifiedTypeName name="javax.persistence.Temporal"/>
     <fullyQualifiedTypeName name="com.practice.rubrica.services.RegistroService"/>
-    <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
     <fullyQualifiedTypeName name="javax.persistence.FetchType"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
     <fullyQualifiedTypeName name="java.util.Date"/>
-    <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
     <fullyQualifiedTypeName name="org.springframework.hateoas.EntityModel"/>
     <fullyQualifiedTypeName name="org.springframework.hateoas.server.mvc.ControllerLinkBuilder"/>
     <fullyQualifiedTypeName name="org.springframework.hateoas.server.mvc.WebMvcLinkBuilder"/>
+    <fullyQualifiedTypeName name="javax.persistence.criteria.Root"/>
+    <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
+    <fullyQualifiedTypeName name="org.springframework.web.servlet.view.RedirectView"/>
+    <fullyQualifiedTypeName name="org.springframework.hateoas.Links"/>
+    <fullyQualifiedTypeName name="org.springframework.transaction.annotation.Transactional"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
 </qualifiedTypeNameHistroy>
