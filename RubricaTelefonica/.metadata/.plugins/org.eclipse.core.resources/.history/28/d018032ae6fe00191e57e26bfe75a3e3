@@ -1,0 +1,78 @@
+package com.practice.rubrica.entities;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "registro")
+public class Chiamate implements Serializable {
+
+	private static final long serialVersionUID = 1590690697682021928L;
+	
+	public Chiamate() {}
+	
+	public Chiamate(Contatti contatto) {
+		this.contatto = contatto;
+		this.timeStart = LocalDateTime.now();
+	}
+
+	@Id
+	@GeneratedValue
+	@Column(name = "ID_Chiamata")
+	private Long id;
+
+	@Column(name = "TimeStart")
+	private LocalDateTime timeStart;
+	
+	@Column(name = "TimeEnd")
+	private LocalDateTime timeEnd;
+	
+	@Column(name = "Durata")
+	private LocalTime durata;
+	
+	@OneToOne
+	@JoinColumn(name = "ID_Contatto")
+	private Contatti contatto;
+	
+	public Long getId_chiamata() {
+		return id;
+	}
+	public void setId_chiamata(Long id_chiamata) {
+		this.id = id_chiamata;
+	}
+	public LocalDateTime getTimeStart() {
+		return timeStart;
+	}
+	public void setTimeStart(LocalDateTime timestamp) {
+		this.timeStart = timestamp;
+	}
+	public LocalDateTime getTimeEnd() {
+		return timeEnd;
+	}
+	public void setTimeEnd(LocalDateTime timeEnd) {
+		this.timeEnd = timeEnd;
+	}
+	public LocalTime getDurata() {
+		return durata;
+	}
+	public void setDurata(LocalTime durata) {
+		this.durata = durata;
+	}
+	public Contatti getContatto() {
+		return contatto;
+	}
+	public void setContatto(Contatti contatto) {
+		this.contatto = contatto;
+	}
+}

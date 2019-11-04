@@ -1,0 +1,10 @@
+package com.practice.rubrica.exceptions;
+
+public class ChiamataInCorsoException extends RuntimeException {
+
+	private static final long serialVersionUID = -2035684613222207396L;
+
+	public ChiamataInCorsoException(Long id) {
+		super("chiamata in corso");
+	}
+}

@@ -1,0 +1,15 @@
+package com.practice.rubrica.exceptions;
+
+import org.springframework.http.HttpStatus;
+
+@ControllerAdvice
+public class ChiamataInCorsoAdvice {
+
+	@ResponseBody
+	@ExceptionHandler(ChiamataInCorsoException.class)
+	@ResponseStatus(HttpStatus.CONFLICT)
+	String chiamataInCorsoHandler(ChiamataInCorsoException x) {
+		x.getMessage();
+	}
+	
+}

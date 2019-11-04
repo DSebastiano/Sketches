@@ -1,0 +1,85 @@
+package com.practice.rubrica.controllers;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.practice.rubrica.entities.Chiamate;
+import com.practice.rubrica.entities.Contatti;
+import com.practice.rubrica.exceptions.ChiamataInCorsoException;
+import com.practice.rubrica.services.ChiamateService;
+import com.practice.rubrica.services.ContattiService;
+
+@RestController
+@RequestMapping("/rubrica")
+public class ChiamateController {
+	
+	private Long idChiamataInCorso = null;
+
+	@Autowired
+	private ChiamateService chiamateService;
+	
+	@Autowired
+	private ContattiService contattiService;
+	
+	@GetMapping("/chiamate/{idChiamata}")
+	EntityModel<Chiamate> selChiamata(@PathVariable Long idChiamata) {
+		Chiamate chiamata = chiamateService.selChiamata(idChiamata);
+		
+		return new EntityModel<>(chiamata,
+				linkTo(methodOn(ChiamateController.class).selChiamata(chiamata.getId_chiamata())).withSelfRel(),
+			    linkTo(methodOn(ChiamateController.class).selChiamate()).withRel("storico chiamate"));
+	}
+	
+	@GetMapping("/chiamate")
+	CollectionModel<EntityModel<Chiamate>> selChiamate() {
+		List<EntityModel<Chiamate>> chiamate = chiamateService.selTutti().stream()
+				.map(chiamata -> new EntityModel<Chiamate>(chiamata,
+				      linkTo(methodOn(ChiamateController.class).selChiamata(chiamata.getId_chiamata())).withSelfRel(),
+				      linkTo(methodOn(ChiamateController.class).selChiamate()).withRel("registro chiamate")))
+			    .collect(Collectors.toList());
+		
+		return new CollectionModel<>(chiamate,
+			    linkTo(methodOn(ChiamateController.class).selChiamate()).withSelfRel(),
+			    linkTo(methodOn(ContattiController.class).selContatti()).withRel("visualizza tutti i contatti"));
+	}
+	
+	@PostMapping("contatti/{id}/chiama")
+	public EntityModel<Chiamate> nuovaChiamata(@PathVariable("id") Long id_contatto) {
+		if(idChiamataInCorso != null) {
+			throw new ChiamataInCorsoException(idChiamataInCorso);
+		} else {
+			Contatti contattoChiamato = contattiService.selContatto(id_contatto);
+			Chiamate nuovaChiamata = new Chiamate(contattoChiamato);
+			chiamateService.inserisci(nuovaChiamata);
+			idChiamataInCorso = nuovaChiamata.getId_chiamata();
+			
+			return new EntityModel<>(nuovaChiamata,
+					linkTo(methodOn(ContattiController.class).selContatto(id_contatto)).withRel("visualizza contatto chiamato"),
+					linkTo(methodOn(ChiamateController.class).selChiamate()).withRel("registro chiamate"));
+		}
+	}
+	
+	@PutMapping("chiamate/{id}/termina")
+	public EntityModel<Chiamate> terminaChiamata(@PathVariable("id") Long id_chiamata) {
+		Chiamate chiamataChiusa = chiamateService.chiudiChiamata(id_chiamata);
+		idChiamataInCorso = null;
+		
+		return new EntityModel<>(chiamataChiusa,
+				linkTo(methodOn(ContattiController.class).selContatto(chiamataChiusa.getContatto().getId_contatto())).withRel("richiama"),
+			    linkTo(methodOn(ChiamateController.class).selChiamate()).withRel("storico chiamate"));
+	}
+}
+

@@ -1,0 +1,26 @@
+package com.practice.rubrica.exceptions;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.practice.rubrica.controllers.ChiamateController;
+
+@ControllerAdvice
+public class ChiamataInCorsoAdvice {
+
+	@ResponseBody
+	@ExceptionHandler(ChiamataInCorsoException.class)
+	@ResponseStatus(HttpStatus.CONFLICT)
+	EntityModel<String> chiamataInCorsoHandler(ChiamataInCorsoException x) {
+		return new EntityModel<>(x.getMessage(),
+				linkTo(methodOn(ChiamateController.class).chiudiChiamata()).withRel("termina chiamata in corso"));
+	}
+	
+}

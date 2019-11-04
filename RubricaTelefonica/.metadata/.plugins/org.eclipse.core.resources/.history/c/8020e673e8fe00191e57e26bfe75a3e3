@@ -1,0 +1,8 @@
+package com.practice.rubrica.exceptions;
+
+public class ChiamataInCorsoException extends RuntimeException {
+
+	ChiamataInCorsoException(Long id) {
+		super("chiamata in corso");
+	}
+}
