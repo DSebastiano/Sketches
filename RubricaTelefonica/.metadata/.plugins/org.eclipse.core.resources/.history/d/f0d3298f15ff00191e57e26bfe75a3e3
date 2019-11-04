@@ -1,0 +1,112 @@
+package com.practice.rubrica.controllers;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.practice.rubrica.ContattiResourceGenerator;
+import com.practice.rubrica.domani.ContattiExt;
+import com.practice.rubrica.entities.Contatti;
+import com.practice.rubrica.services.ContattiService;
+
+@RestController
+@RequestMapping("/rubrica")
+public class ContattiController {
+
+	@Autowired
+	private ContattiResourceGenerator contattiResourceGenerator;
+
+	@Autowired
+	private ContattiService contattiService;
+	
+	private RestTemplate restTemplate = new RestTemplate();
+	private final String urlTemplate = "http://localhost:45678/public/contacts/" + "%s" + "/status";
+	
+	private String getStatus(Long id) {
+		String url = String.format(urlTemplate, Long.toString(id));
+		
+		return restTemplate.getForEntity(url, String.class).getBody();
+	}
+	
+	@GetMapping("/contatti/{idContatto}")
+	public EntityModel<ContattiExt> selContatto(@PathVariable Long idContatto) {
+		Contatti contatto = contattiService.selContatto(idContatto);
+		String status = getStatus(idContatto);
+		ContattiExt contattoExt = new ContattiExt(status, contatto);
+		return contattiResourceGenerator.toModel(contattoExt);
+	}
+	
+	@GetMapping("/contatti")
+	public CollectionModel<EntityModel<ContattiExt>> selContatti() {
+		List<EntityModel<ContattiExt>> contatti = contattiService.selTutti().stream()
+				.map(contatto -> new ContattiExt(
+						getStatus(contatto.getId_contatto()),
+								  contatto))
+				.map(contattiResourceGenerator::toModel)
+				.collect(Collectors.toList());
+		
+		return new CollectionModel<>(contatti,
+			    linkTo(methodOn(ContattiController.class).selContatti()).withRel("visualizza tutti i contatti"),
+			    linkTo(methodOn(ContattiController.class).selPreferiti()).withRel("visualizza i preferiti"),
+			    linkTo(methodOn(ChiamateController.class).selChiamate()).withRel("registro chiamate"));
+	}
+	
+	@GetMapping("/contatti/cerca")
+	CollectionModel<EntityModel<ContattiExt>> cercaContatti(@RequestParam(value = "searchString", required = false) String searchString) {
+		List<EntityModel<ContattiExt>> contatti = contattiService.selTutti(searchString).stream()
+				.map(contatto -> new ContattiExt(
+						getStatus(contatto.getId_contatto()),
+								  contatto))
+				.map(contattiResourceGenerator::toModel)
+				.collect(Collectors.toList());
+		
+		return new CollectionModel<>(contatti,
+			    linkTo(methodOn(ContattiController.class).selContatti()).withRel("visualizza tutti i contatti"),
+			    linkTo(methodOn(ContattiController.class).selPreferiti()).withRel("visualizza i preferiti"),
+			    linkTo(methodOn(ChiamateController.class).selChiamate()).withRel("registro chiamate"));
+	}
+	
+	@GetMapping("/contatti/preferiti")
+	CollectionModel<EntityModel<ContattiExt>> selPreferiti() {
+		List<EntityModel<ContattiExt>> preferiti = contattiService.selPreferiti().stream()
+				.map(contatto -> new ContattiExt(
+						getStatus(contatto.getId_contatto()),
+								  contatto))
+				.map(contattiResourceGenerator::toModel)
+				.collect(Collectors.toList());
+		
+		return new CollectionModel<>(preferiti,
+			    linkTo(methodOn(ContattiController.class).selContatti()).withRel("visualizza tutti i contatti"));
+	}
+	
+	@PostMapping("/contatti")
+	EntityModel<ContattiExt> nuovoContatto(@RequestBody Contatti nuovoContatto) {
+		contattiService.inserisci(nuovoContatto);
+		String status = getStatus(nuovoContatto.getId_contatto());
+		ContattiExt nuovoContattoExt = new ContattiExt(status, nuovoContatto);
+		return contattiResourceGenerator.toModel(nuovoContattoExt);
+	}
+	
+	@PostMapping("/contatti/{id}/attiva-fav")
+	public EntityModel<ContattiExt> attivaFav(@PathVariable("id") Long id_contatto) {
+		contattiService.attivaFav(id_contatto);
+		Contatti contattoModificato = contattiService.selContatto(id_contatto);
+		String status = getStatus(id_contatto);
+		ContattiExt contattoModificatoExt = new ContattiExt(status, contattoModificato);
+		return contattiResourceGenerator.toModel(contattoModificatoExt);
+	}
+}
