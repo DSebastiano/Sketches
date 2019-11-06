@@ -1,0 +1,115 @@
+package com.practice.rubrica.entities;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.web.client.RestTemplate;
+
+@Entity
+@Table(name = "contatti")
+public class Contatti implements Serializable {
+
+	public Contatti() {}
+	
+	public Contatti(String num_tel, String nome, String cognome, Boolean preferiti, String skypeId) {
+		this.num_tel = num_tel;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.preferiti = preferiti;
+		this.skypeId = skypeId;
+	}
+
+	private static final long serialVersionUID = 8159286375308158780L;
+
+	@Id 
+	@GeneratedValue
+	@Column(name = "ID_Contatto")
+	private Long id;
+	
+	@Column(name = "Num_Tel")
+	private String num_tel;
+	
+	@Column(name = "Nome")
+	private String nome;
+	
+	@Column(name = "Cognome")
+	private String cognome;
+	
+	@Column(name = "Preferiti")
+	private Boolean preferiti;
+	
+	@Column(name = "skype_id")
+	private String skypeId;
+	
+	@Transient
+	private String status;
+	
+	private RestTemplate restTemplate = new RestTemplate();
+	private final String urlTemplate = "http://localhost:45678/public/contacts/" + "%s" + "/status";
+
+	public String getStatus(Long id) {
+		id = this.id;
+		String url = String.format(urlTemplate, Long.toString(id));
+		
+		return restTemplate.getForEntity(url, String.class).getBody();
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Long getId_contatto() {
+		return id;
+	}
+
+	public void setId_contatto(Long id_contatto) {
+		this.id = id_contatto;
+	}
+
+	public String getNum_tel() {
+		return num_tel;
+	}
+
+	public void setNum_tel(String num_tel) {
+		this.num_tel = num_tel;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCognome() {
+		return cognome;
+	}
+
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
+
+	public Boolean getPreferiti() {
+		return preferiti;
+	}
+
+	public void setPreferiti(Boolean preferiti) {
+		this.preferiti = preferiti;
+	}
+
+	public String getSkypeId() {
+		return skypeId;
+	}
+
+	public void setSkypeId(String skypeId) {
+		this.skypeId = skypeId;
+	}
+
+}

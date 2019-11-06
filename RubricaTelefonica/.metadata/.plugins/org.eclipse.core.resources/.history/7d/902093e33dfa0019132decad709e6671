@@ -1,5 +1,0 @@
-package com.practice.rubrica.repository;
-
-public interface RegistroRep {
-
-}

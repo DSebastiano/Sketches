@@ -1,0 +1,31 @@
+package com.practice.rubrica.domain;
+
+import com.practice.rubrica.entities.Contatti;
+
+public class ContattiExt {
+
+	private String status;
+	
+	private Contatti contatto;
+
+	public ContattiExt(String status, Contatti contatto) {
+		this.status = status;
+		this.contatto = contatto;
+	}
+
+	public Contatti getContatto() {
+		return contatto;
+	}
+
+	public void setContatto(Contatti contatto) {
+		this.contatto = contatto;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+}
